@@ -1,10 +1,10 @@
 import { PluginCommonModule, VendurePlugin } from '@vendure/core';
 import { PluginInitOptions } from './types';
 import { PLUGIN_INIT_OPTIONS } from './constants';
-import { SalesTrackerEntity } from './entities/salestracker.entity';
-import { SalesTrackerService } from './service/salestracker.service';
-import { shopApiExtensions } from './api/api-extensions';
-import { SalesTrackerResolver } from './api/salestracker.resolver';
+import { MailSubscriptionEntity } from './entities/mailsubscription.entity';
+import { MailSubscriptionService } from './service/mailsubscription.service';
+import { adminApiExtensions,shopApiExtensions } from './api/api-extensions';
+import { MailSubscriptionResolver } from './api/mailsubscription.resolver';
 
 /**
  * An example Vendure plugin.
@@ -25,34 +25,23 @@ import { SalesTrackerResolver } from './api/salestracker.resolver';
     // Importing the PluginCommonModule gives all of our plugin's injectables (services, resolvers)
     // access to the Vendure core providers. See https://www.vendure.io/docs/typescript-api/plugin/plugin-common-module/
     imports: [PluginCommonModule],
-    entities: [SalesTrackerEntity],
+    entities: [MailSubscriptionEntity],
     shopApiExtensions: {
         schema: shopApiExtensions,
-        resolvers: [SalesTrackerResolver],
+        resolvers: [MailSubscriptionResolver],
+    },
+	adminApiExtensions: {
+        schema: adminApiExtensions,
+        resolvers: [MailSubscriptionResolver],
     },
     providers: [
-        SalesTrackerService,
+        MailSubscriptionService,
         // By definiting the `PLUGIN_INIT_OPTIONS` symbol as a provider, we can then inject the
         // user-defined options into other classes, such as the {@link ExampleService}.
-        { provide: PLUGIN_INIT_OPTIONS, useFactory: () => ExamplePlugin.options },
-    ],
-	
-	configuration:config =>{
-	  config.customFields.ProductVariant.push({
-	    type: 'string',
-		name: 'Unit',
-		defaultValue: 'piece'
-	  },{
-	    type: 'int',
-		name: 'Sales',
-		min: 0,
-	    defaultValue: 0
-	  });
-	  return config;
-	}
-	
+        { provide: PLUGIN_INIT_OPTIONS, useFactory: () => MailSubscriptionPlugin.options },
+    ]
 })
-export class SalesTrackerPlugin {
+export class MailSubscriptionPlugin {
 
     static options: PluginInitOptions;
 
@@ -62,6 +51,6 @@ export class SalesTrackerPlugin {
      */
     static init(options: PluginInitOptions) {
         this.options = options;
-        return SalesTrackerPlugin;
+        return MailSubscriptionPlugin;
     }
 }

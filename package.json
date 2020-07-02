@@ -1,13 +1,13 @@
 {
-  "name": "salestracker-plugin",
+  "name": "vendure-mailsubscription-plugin",
   "version": "0.0.1",
-  "description": "A Vendure plugin for tracking sales",
+  "description": "A Vendure plugin for email subscription",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-     "lib/**/*"
-   ],
-  "author": "Biplab Karki <biplab@innovatex.biz>",
+    "lib/**/*"
+  ],
+  "author": "Biplab Karki <biplabkarki04@gmail.com>",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -21,5 +21,6 @@
     "@vendure/ui-devkit": "^0.13.0",
     "rimraf": "^3.0.2",
     "typescript": "^3.9.5"
-  }
+  },
+  "dependencies": {}
 }

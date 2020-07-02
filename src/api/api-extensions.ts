@@ -1,14 +1,38 @@
 import gql from 'graphql-tag';
 
-export const shopApiExtensions = gql`
-    type Example implements Node {
+const commonExtensions = gql `
+  type Email implements Node {
         id: ID!
         createdAt: DateTime!
         updatedAt: DateTime!
-        name: String!
+        email: String!
     }
+	
+`;
+
+
+export const shopApiExtensions = gql`
+    ${commonExtensions}
+    
+	extend type Mutation {
+        addSubsciptionEmail(email:String!): Email!
+    }
+	
+`;
+
+export const adminApiExtensions = gql`
+	${commonExtensions}
     
     extend type Query {
-        examples: [Example!]!
+        SubscriptionEmails: [Email!]!
     }
+	
+	extend type Mutation {
+        addSubsciptionEmail(email:String!): Email!
+        updateSubscriptionEmail(id: ID!,email:String!): Email!
+        deleteSubscriptionEmail(id: ID!): Email!
+    }
+	
 `;
+
+

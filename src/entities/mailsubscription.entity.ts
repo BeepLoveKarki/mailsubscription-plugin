@@ -7,12 +7,12 @@ import { VendureEntity, DeepPartial } from '@vendure/core';
  * to query in your plugin code.
  */
 @Entity()
-export class SalesTrackerEntity extends VendureEntity {
+export class MailSubscriptionEntity extends VendureEntity {
 
-    constructor(input?: DeepPartial<SalesTrackerEntity>) {
+    constructor(input?: DeepPartial<MailSubscriptionEntity>) {
         super(input);
     }
 
     @Column()
-    name: string;
+    email: string;
 }
