@@ -4,7 +4,8 @@ import { PLUGIN_INIT_OPTIONS } from './constants';
 import { MailSubscriptionEntity } from './entities/mailsubscription.entity';
 import { MailSubscriptionService } from './service/mailsubscription.service';
 import { adminApiExtensions,shopApiExtensions } from './api/api-extensions';
-import { MailSubscriptionResolver } from './api/mailsubscription.resolver';
+import { MailSubscriptionShopResolver } from './api/mailsubscription-shop.resolver';
+import { MailSubscriptionAdminResolver } from './api/mailsubscription-admin.resolver';
 
 /**
  * An example Vendure plugin.
@@ -28,11 +29,11 @@ import { MailSubscriptionResolver } from './api/mailsubscription.resolver';
     entities: [MailSubscriptionEntity],
     shopApiExtensions: {
         schema: shopApiExtensions,
-        resolvers: [MailSubscriptionResolver],
+        resolvers: [MailSubscriptionShopResolver],
     },
 	adminApiExtensions: {
         schema: adminApiExtensions,
-        resolvers: [MailSubscriptionResolver],
+        resolvers: [MailSubscriptionAdminResolver],
     },
     providers: [
         MailSubscriptionService,

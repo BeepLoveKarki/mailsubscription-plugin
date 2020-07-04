@@ -14,7 +14,8 @@
     "sourceMap": true,
     "newLine": "LF",
     "declaration": true,
-    "outDir": "./lib"
+    "outDir": "./lib",
+	"noImplicitAny": false
   },
   "files": ["./index.ts"]
 }
