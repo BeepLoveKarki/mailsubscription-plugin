@@ -13,3 +13,13 @@ export const GET_ALL_EMAILS = gql`
     }
 	${MAIL_SUBSCRIPTION_FRAGMENT}
 `;
+
+
+export const DELETE_EMAIL = gql`
+   mutation DeleteEmail($input:ID!){
+      deleteSubscriptionEmail(id:$input){
+	     ...SubscribedEmails 
+	  }
+   }
+   ${MAIL_SUBSCRIPTION_FRAGMENT}
+`;
