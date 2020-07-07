@@ -73,7 +73,7 @@ export class AllMailsListComponent extends BaseListComponent<
                 ],
             })
             .pipe(
-                switchMap(response => (response ? this.dataService.mutate(DELETE_EMAIL,id) : EMPTY)),
+                switchMap(response => (response ? this.dataService.mutate(DELETE_EMAIL,[id]) : EMPTY)),
             )
             .subscribe(
                 () => {
