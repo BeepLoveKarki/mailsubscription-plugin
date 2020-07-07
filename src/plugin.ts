@@ -6,6 +6,8 @@ import { MailSubscriptionService } from './service/mailsubscription.service';
 import { adminApiExtensions,shopApiExtensions } from './api/api-extensions';
 import { MailSubscriptionShopResolver } from './api/mailsubscription-shop.resolver';
 import { MailSubscriptionAdminResolver } from './api/mailsubscription-admin.resolver';
+import path from 'path';
+import { AdminUiExtension } from '@vendure/ui-devkit/compiler';
 
 /**
  * An example Vendure plugin.
@@ -54,4 +56,25 @@ export class MailSubscriptionPlugin {
         this.options = options;
         return MailSubscriptionPlugin;
     }
+	
+	static uiExtensions: AdminUiExtension = {
+        extensionPath: path.join(__dirname, 'ui-extensions'),
+        ngModules: [
+            {
+                type: 'lazy' as const,
+                route: 'subscribedmails',
+                ngModuleFileName: 'mailsubscription-ui-lazy.module.ts',
+                ngModuleName: 'MailSubscriptionUIModule',
+            },
+			{
+			   type: 'shared' as const,
+			   ngModuleFileName: 'mailsubscription-ui-extension.module.ts',
+               ngModuleName: 'MailSubscriptionExtensionModule',
+			}
+        ],
+       translations: {
+         en: path.join(__dirname, 'i18n/en.json')
+       }
+    };
+	
 }

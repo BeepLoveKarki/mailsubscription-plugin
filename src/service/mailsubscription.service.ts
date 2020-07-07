@@ -2,6 +2,10 @@ import { Injectable, Inject } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 
+import { ListQueryBuilder,getEntityOrThrow } from '@vendure/core';
+
+import { ListQueryOptions } from '@vendure/core/dist/common/types/common-types';
+
 import { MailSubscriptionEntity } from '../entities/mailsubscription.entity';
 import { PLUGIN_INIT_OPTIONS } from '../constants';
 import { PluginInitOptions } from '../types';
@@ -10,12 +14,24 @@ import { PluginInitOptions } from '../types';
 export class MailSubscriptionService {
 
     constructor(@InjectConnection() private connection: Connection,
-                @Inject(PLUGIN_INIT_OPTIONS) private options: PluginInitOptions) {}
+                @Inject(PLUGIN_INIT_OPTIONS) private options: PluginInitOptions,
+				private listQueryBuilder: ListQueryBuilder) {}
 
-    getAllMails() {
-        return this.connection.getRepository(MailSubscriptionEntity).find();
+    async getAllMails(ctx,options?: ListQueryOptions<MailSubscriptionEntity>) {
+        return this.listQueryBuilder
+		.build(MailSubscriptionEntity, options)
+		.getManyAndCount()
+		.then(([emails, totalItems]) => {
+			return {
+				items: emails,
+				totalItems
+			 };
+		 });
     }
 	
+	async getMailById(ctx,data){
+	   return getEntityOrThrow(this.connection, MailSubscriptionEntity, data);
+	}
 	
 	async addSingleMail(ctx,data){
 	   const createdVariant = this.connection.getRepository(MailSubscriptionEntity).create(data);

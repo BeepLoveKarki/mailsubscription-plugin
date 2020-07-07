@@ -1,4 +1,5 @@
 import { PluginInitOptions } from './types';
+import { AdminUiExtension } from '@vendure/ui-devkit/compiler';
 /**
  * An example Vendure plugin.
  *
@@ -21,4 +22,5 @@ export declare class MailSubscriptionPlugin {
      * to be configured by the user.
      */
     static init(options: PluginInitOptions): typeof MailSubscriptionPlugin;
+    static uiExtensions: AdminUiExtension;
 }

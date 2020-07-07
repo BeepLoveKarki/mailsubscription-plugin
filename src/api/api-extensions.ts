@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-server-core';
 
 const commonExtensions = gql `
   type Email implements Node {
@@ -34,17 +34,23 @@ export const adminApiExtensions = gql`
 	  email: String!
 	}
 	
+	type EmailList implements PaginatedList {
+     items: [Email!]!
+     totalItems: Int!
+    }
+	
     extend type Query {
-        SubscriptionEmails: [Email!]!
+        SubscriptionEmails(options: EmailListOptions): EmailList!
+		SubscriptionEmail(id:ID!):Email
     }
 	
 	extend type Mutation {
         addSubscriptionEmail(input:[EmailAddInput!]!): [Email]!
 		updateSubscriptionEmail(input:[EmailUpdateInput!]!): [Email]!
 		deleteSubscriptionEmail(id:[ID!]!): [Email]!
-		deleteAllSubscriptionEmails:Boolean!
+		deleteAllSubscriptionEmails: Boolean!
     }
-	
+	input EmailListOptions
 `;
 
 
