@@ -1,4 +1,12 @@
 <vdr-action-bar>
+    <vdr-ab-left>
+        <input
+            type="text"
+            name="searchTerm"
+            [placeholder]="'vdr-mailsubscription-plugin.search-by-email' | translate"
+            class="clr-input search-input"
+        />
+    </vdr-ab-left>
     <vdr-ab-right>
         <vdr-action-bar-items locationId="email-list"></vdr-action-bar-items>
         <a class="btn" id="createbtn" [routerLink]="['./create']" *vdrIfPermissions="'CreateSettings'">
