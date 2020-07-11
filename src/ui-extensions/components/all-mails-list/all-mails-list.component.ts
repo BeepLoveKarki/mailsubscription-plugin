@@ -3,11 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 import { BaseListComponent, DataService, NotificationService, ModalService  } from '@vendure/admin-ui/core';
-import { merge } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 import { SortOrder } from '../../generated-types';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { debounceTime, takeUntil, switchMap } from 'rxjs/operators';
+import { CsvDataService } from '../../common/export-as-csv';
 
 import { 
   GetAllEmailsQuery,
@@ -31,10 +33,14 @@ export class AllMailsListComponent extends BaseListComponent<
     GetAllEmailsQueryVariables
 > implements OnInit {
     searchTerm = new FormControl('');
+	SubscriptionEmails: any;
+	private querySubscription: Subscription;
+
     constructor(
 	   private dataService: DataService,
        private modalService: ModalService,
-       private notificationService: NotificationService,	   
+       private notificationService: NotificationService,
+       private apollo: Apollo,	   
 	   router: Router, 
 	   route: ActivatedRoute,
 	) {
@@ -52,7 +58,7 @@ export class AllMailsListComponent extends BaseListComponent<
                         },
                     },
 					sort: {
-                        updatedAt: SortOrder.Asc,
+                        updatedAt: SortOrder.Desc,
                     },
                 },
             }),
@@ -67,16 +73,21 @@ export class AllMailsListComponent extends BaseListComponent<
                 takeUntil(this.destroy$),
             )
             .subscribe(() => {
-				console.log("a");
 				this.refresh();
 			});
     }
 	
 	
-	
 	downloadcsv(){
-	   let args: any[] = [];
-	   //this.dataService.query(GET_ALL_EMAILS,args);
+	  let args: any[] = [];
+	  this.apollo.watchQuery<any>({
+         query: GET_ALL_EMAILS,
+		 variables: args
+      }).valueChanges.subscribe((data) => {
+		  CsvDataService.exportToCsv('danfe-subscribed-emails.csv', data.data.SubscriptionEmails.items);
+      });
+	  
+	   
 	}
 	
 	deleteEmail(id: string) {

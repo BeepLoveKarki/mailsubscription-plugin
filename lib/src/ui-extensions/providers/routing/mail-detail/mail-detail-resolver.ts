@@ -60,7 +60,6 @@ export default class MailDetailResolver extends BaseEntityResolver<
             id: id
         })
         .mapStream((data) => data.SubscriptionEmail)
-		.pipe(take(1))
     );
   }
 }

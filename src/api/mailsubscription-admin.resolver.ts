@@ -10,15 +10,15 @@ export class MailSubscriptionAdminResolver {
     @Query()
 	@Allow(Permission.ReadSettings)
     SubscriptionEmails(@Ctx() ctx: RequestContext, @Args() args: any) {
-		const {input} = args;
-        return this.mailsubscriptionService.getAllMails(ctx,input || undefined);
+		const {options} = args;
+        return this.mailsubscriptionService.getAllMails(ctx,options || undefined);
     }
 	
 	@Query()
 	@Allow(Permission.ReadSettings)
     SubscriptionEmail(@Ctx() ctx: RequestContext, @Args() args: any) {
-		const {input} = args;
-        return this.mailsubscriptionService.getMailById(ctx,input);
+		const {id} = args;
+        return this.mailsubscriptionService.getMailById(ctx,id);
     }
 	
 	@Mutation()
